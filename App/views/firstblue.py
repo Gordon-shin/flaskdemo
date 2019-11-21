@@ -14,7 +14,7 @@ def h1():
 
 @blue.route('/createdb/')
 def create_db():
-    db.create_all()
+    db.session.create_all()
     return  '创建成功'
 
 @blue.route('/adduser')

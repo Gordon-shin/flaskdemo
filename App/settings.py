@@ -1,3 +1,13 @@
+def get_db_info(dbinfo):
+	engine = dbinfo.get("ENGINE") or "sqlite"
+	driver = dbinfo.get("DRIVER") or ""
+	users = dbinfo.get("USER") or ""
+	password = dbinfo.get("PASSWORD") or ""
+	host = dbinfo.get("HOST") or ""
+	port = dbinfo.get("PORT") or ""
+	database = dbinfo.get("DATABASE") or ""
+	return "{}+{}://{}:{}@{}:{}/{}".format(engine,driver,users,password,host,port,database)
+
 class Config:
     DEBUG = False
     TESTING = False
@@ -9,29 +19,25 @@ class Config:
         "PASSWORD": "root",
         "HOST":"localhost",
         "PORT":"3306",
-        "Name": "MysqlHelloFlask"
+        "DATABASE": "MysqlHelloFlask"
     }
-    def get_db_info(self):
-        engine = self.dbinfo.get("ENGINE") or "sqlite"
-        driver = self.dbinfo.get("DRIVER") or ""
-        user = self.dbinfo.get("USER") or ""
-        password = self.dbinfo.get("PASSWORD") or ""
-        host = self.dbinfo.get("HOST") or ""
-        port = self.dbinfo.get("PORT") or ""
-        name = self.dbinfo.get("Name") or ""
-        return engine
-
-    SQLALCHEMY_DATABASE_URI = get_db_info();
+    SQLALCHEMY_DATABASE_URI = get_db_info(dbinfo);
 
 
 class DevelopConfig(Config):
     DEBUG = True
     dbinfo={
-        "ENGINE":"mysql2",
+        "ENGINE":"mysql",
         "DRIVER":"pymysql",
         "USER":"root",
         "PASSWORD":"root",
         "HOST": "localhost",
         "PORT": "3306",
-        "Name":"MysqlHelloFlask"
+        "DATABASE":"MysqlHelloFlask"
     }
+    SQLALCHEMY_DATABASE_URI = get_db_info(dbinfo);
+
+envs={
+	"develop":DevelopConfig,
+	"orgin":Config
+}

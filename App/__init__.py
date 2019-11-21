@@ -8,6 +8,7 @@ from App.views import init_view
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_object()
     #init_route(app)
     init_view(app)
     return app
